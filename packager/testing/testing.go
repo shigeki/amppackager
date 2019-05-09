@@ -43,6 +43,63 @@ var Key = func() crypto.PrivateKey {
 	return key
 }()
 
+
+// B3 90 days Cert and Key
+var B3Certs = func() []*x509.Certificate {
+	certPem, _ := ioutil.ReadFile("../../testdata/b3/fullchain.cert")
+	certs, _ := signedexchange.ParseCertificates(certPem)
+	return certs
+}()
+
+var B3Key = func() crypto.PrivateKey {
+	keyPem, _ := ioutil.ReadFile("../../testdata/b3/server.privkey")
+	// This call to ParsePrivateKey() is needed by util_test.go.
+	key, _ := util.ParsePrivateKey(keyPem)
+	return key
+}()
+
+// B3 Cert and Key of amppackageexample2.com
+var B3Certs2 = func() []*x509.Certificate {
+	certPem, _ := ioutil.ReadFile("../../testdata/b3/fullchain2.cert")
+	certs, _ := signedexchange.ParseCertificates(certPem)
+	return certs
+}()
+
+var B3Key2 = func() crypto.PrivateKey {
+	keyPem, _ := ioutil.ReadFile("../../testdata/b3/server2.privkey")
+	// This call to ParsePrivateKey() is needed by util_test.go.
+	key, _ := util.ParsePrivateKey(keyPem)
+	return key
+}()
+
+// B3 91 days Cert and Key
+var B3Certs91Days = func() []*x509.Certificate {
+	certPem, _ := ioutil.ReadFile("../../testdata/b3/fullchain_91days.cert")
+	certs, _ := signedexchange.ParseCertificates(certPem)
+	return certs
+}()
+
+var B3Key91Days = func() crypto.PrivateKey {
+	keyPem, _ := ioutil.ReadFile("../../testdata/b3/server_91days.privkey")
+	// This call to ParsePrivateKey() is needed by util_test.go.
+	key, _ := util.ParsePrivateKey(keyPem)
+	return key
+}()
+
+// B3 secp521r1 Cert and Key
+var B3CertsP521 = func() []*x509.Certificate {
+	certPem, _ := ioutil.ReadFile("../../testdata/b3/fullchain_p192.cert")
+	certs, _ := signedexchange.ParseCertificates(certPem)
+	return certs
+}()
+
+var B3KeyP521 = func() crypto.PrivateKey {
+	keyPem, _ := ioutil.ReadFile("../../testdata/b3/server_p521.privkey")
+	// This call to ParsePrivateKey() is needed by util_test.go.
+	key, _ := util.ParsePrivateKey(keyPem)
+	return key
+}()
+
 // The URL path component corresponding to the cert's sha-256.
 var CertName = util.CertName(Certs[0])
 

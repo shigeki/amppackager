@@ -17,6 +17,7 @@ package util
 import (
 	"bytes"
 	"crypto"
+	"crypto/ecdsa"
 	"crypto/sha256"
 	"crypto/x509"
 	"encoding/asn1"
@@ -75,4 +76,23 @@ func CanSignHttpExchanges(cert *x509.Certificate) bool {
 		}
 	}
 	return false
+}
+
+//
+func ParseCertificate(cert *x509.Certificate, priv crypto.PrivateKey, domain string) error {
+	certPubKey := cert.PublicKey.(*ecdsa.PublicKey)
+	pubKey := priv.(*ecdsa.PrivateKey).PublicKey
+	if certPubKey.Curve != pubKey.Curve {
+		return errors.New("PublicKey.Curve not match")
+	}
+	if certPubKey.X.Cmp(pubKey.X) != 0 {
+		return errors.New("PublicKey.X not match")
+	}
+	if certPubKey.Y.Cmp(pubKey.Y) != 0 {
+		return errors.New("PublicKey.Y not match")
+	}
+	if err := cert.VerifyHostname(domain); err != nil {
+		return err
+	}
+	return nil
 }
